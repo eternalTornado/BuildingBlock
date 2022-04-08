@@ -6,6 +6,7 @@ using Dispatcher;
 using DG.Tweening;
 using System;
 using CodeStringers.UIBase;
+using UniRx;
 
 public class Gameplay : MonoSingleton<Gameplay>
 {
@@ -135,9 +136,13 @@ public class Gameplay : MonoSingleton<Gameplay>
 
     private void Start()
     {
-        Subscribe();
+        Observable.TimerFrame(1).Subscribe(_ =>
+        {
+            Subscribe();
 
-        UIManager.ShowPopup(UIPopupName.PopupMainMenu);
+            UIManager.ShowPopup(UIPopupName.PopupMainMenu);
+        }).AddTo(this);
+
     }
 
     private void Update()
